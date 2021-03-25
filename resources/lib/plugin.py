@@ -47,7 +47,7 @@ def run():
     addon_handle = int(sys.argv[1])
     xbmcplugin.setContent(addon_handle, 'videos')
     addonID = 'plugin.video.funcarrun'
-    addonVersion = '0.0.1'
+    addonVersion = '0.0.2'
     addonDate = "25 Maart 2021"
 
     __addon__ = xbmcaddon.Addon()

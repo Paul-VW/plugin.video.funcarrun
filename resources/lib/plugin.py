@@ -43,6 +43,29 @@ def show_notification(msg):
     xbmc.executebuiltin('Notification(' + __addonname__ + ',' + msg + ',5000,' + __icon__ + ')')
 
 
+def get_editions():
+    url = 'https://www.funcarrun.eu/api.php?type=editions'
+    r = requests.get(url)
+    result = r.text
+    data = json.loads(result)
+    return data
+
+
+def add_editions(addon_handle):
+    editions = get_editions()
+    for e in editions['editions']:
+        title = e['title']
+        thumbnail = e['thumbnail']
+
+        listitem = xbmcgui.ListItem(label=title)
+        listitem.setArt({'icon': thumbnail})
+        listitem.setIsFolder(isFolder=True)
+
+        # Example: plugin://plugin.video.example/?action=listing&category=Animals
+        url = 'plugin://' + addonID + '?action=listing&category=' + title
+        xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=listitem, isFolder=True)
+
+
 def run():
     addon_handle = int(sys.argv[1])
     xbmcplugin.setContent(addon_handle, 'videos')
@@ -65,6 +88,9 @@ def run():
                  xbmc.LOGINFO)
 
     videoList = get_data()
+
+    #add_editions(addon_handle=addon_handle)
+
     for v in videoList:
         videoId = v['id']['videoId']
         uri = "plugin://plugin.video.youtube/?action=play_video&videoid=" + videoId
@@ -74,11 +100,8 @@ def run():
 
         description = description + "\n\nKijk voor inschrijven op https://www.funcarrun.eu"
         listitem = xbmcgui.ListItem(label=v['snippet']['title'])
-
         listitem.setProperty('IsPlayable', 'true')
         listitem.setArt({'icon': thumbnail})
-        listitem.setInfo('video', { 'plot': description })
-        listitem.setInfo('video', { 'title': title })
 
         xbmcplugin.addDirectoryItem(handle=addon_handle, url=uri, listitem=listitem, isFolder=False)
 

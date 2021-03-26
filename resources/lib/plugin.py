@@ -61,7 +61,6 @@ def add_editions(addon_handle):
         listitem.setArt({'icon': thumbnail})
         listitem.setIsFolder(isFolder=True)
 
-        # Example: plugin://plugin.video.example/?action=listing&category=Animals
         url = 'plugin://' + addonID + '?action=listing&category=' + title
         xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=listitem, isFolder=True)
 

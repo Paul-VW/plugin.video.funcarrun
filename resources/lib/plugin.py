@@ -21,7 +21,7 @@ __quality__ = xbmcaddon.Addon(id=addonID).getSetting('quality')
 
 
 def get_channel_content():
-    url = "https://www.funcarrun.eu/api.php?&type=video"
+    url = "https://www.funcarrun.eu/api.php?&type=all_youtube_videos"
     r = requests.get(url)
     result = r.text
     data = json.loads(result)

@@ -8,8 +8,8 @@ import sys
 import requests
 import json
 
-addonID = 'script.domoticz.scenes'
-addonVersion = '0.0.8'
+addonID = 'plugin.video.funcarrun'
+addonVersion = '0.0.2'
 addonDate = "24 Maart 2021"
 
 __addon__ = xbmcaddon.Addon()

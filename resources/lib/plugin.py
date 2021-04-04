@@ -1,22 +1,18 @@
 import xbmcplugin
 import xbmcgui
-import xbmcvfs
 import xbmc
 import xbmcaddon
-import os
 import sys
 import requests
 import json
 
 addonID = 'plugin.video.funcarrun'
-addonVersion = '0.0.2'
-addonDate = "24 Maart 2021"
+addonVersion = '0.0.3'
+addonDate = "4/4/2021"
 
 __addon__ = xbmcaddon.Addon()
 __addonname__ = __addon__.getAddonInfo('name')
 __icon__ = __addon__.getAddonInfo('icon')
-
-
 __quality__ = xbmcaddon.Addon(id=addonID).getSetting('quality')
 
 
@@ -46,28 +42,11 @@ def show_notification(msg):
 def run():
     addon_handle = int(sys.argv[1])
     xbmcplugin.setContent(addon_handle, 'videos')
-    addonID = 'plugin.video.funcarrun'
-    addonVersion = '0.0.2'
-    addonDate = "25 Maart 2021"
-
     __addon__ = xbmcaddon.Addon()
     __addonname__ = __addon__.getAddonInfo('name')
     __icon__ = __addon__.getAddonInfo('icon')
 
-    LIB_DIR = xbmcvfs.translatePath(os.path.join(xbmcaddon.Addon(id=addonID).getAddonInfo('path'), 'resources', 'lib'))
-    sys.path.append(LIB_DIR)
-
-    # Get plugin settings
-    DEBUG = xbmcaddon.Addon(id=addonID).getSetting('debug')
-
-    if (DEBUG) == 'true':
-        xbmc.log("[ADDON] %s v%s (%s) is starting, ARGV = %s" % (addonID, addonVersion, addonDate, repr(sys.argv)),
-                 xbmc.LOGINFO)
-
     videoList = get_channel_content()
-    listitem = xbmcgui.ListItem(label="Search")
-    uri = "plugin://"
-    xbmcplugin.addDirectoryItem(handle=addon_handle, url=uri, listitem=listitem, isFolder=False)
     for v in videoList:
         videoId = v['videoId']
         uri = "plugin://plugin.video.youtube/?action=play_video&videoid=" + videoId
@@ -90,7 +69,3 @@ def run():
 def start():
     videoList = get_channel_content()
     print(videoList)
-
-
-if __name__ == "__main__":
-    run()
